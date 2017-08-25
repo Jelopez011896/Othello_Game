@@ -1,28 +1,21 @@
 <style>
 @import url('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css');
-
-.btn-matrix > .btn:nth-child(3n+4) {
+.btn:nth-child(8n+9)
+{
   clear: left;
-  margin-left: 0;
+
 }
-.btn-matrix > .btn:nth-child(n+4) {
-  margin-top: -1px;
-}
-.btn-matrix > .btn:first-child {
-  border-bottom-left-radius: 0;
-}
-.btn-matrix > .btn:nth-child(3) {
-  border-top-right-radius: 4px !important;
-}
-.btn-matrix > .btn:nth-last-child(3) {
-  border-bottom-left-radius: 4px !important;
-}
-.btn-matrix > .btn:last-child {
-  border-top-right-radius: 0;
+
+.btn:nth-child(8n+1)
+{
+  margin-left: 50px;
 }
 .btn
 {
+  float: left;
   border-radius: 60%;
+  background-color: gray;
+  text-align: left;
 }
 
 </style>
@@ -30,8 +23,8 @@
 <h2>
 <% $game_board.each do |i| %>
   <% i.each do |x|%>
-    <div class="btn-group btn-matrix">
-      <button type="button" class="btn btn-default">B</button>
+    <div class="btn">
+      <button type="button" class="btn">B</button>
     </div>
     <%end%>
 <%end%>
