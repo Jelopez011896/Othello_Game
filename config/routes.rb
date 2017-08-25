@@ -1,3 +1,4 @@
 Rails.application.routes.draw do
-  resources:pieces
+  root 'board#board1'
+  get '/board1',to:'board#board1'
 end

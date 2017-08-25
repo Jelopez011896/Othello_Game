@@ -1,0 +1,2 @@
+class pieces < ApplicationRecord
+end
