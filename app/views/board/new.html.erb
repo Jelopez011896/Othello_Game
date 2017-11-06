@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<style>
+
+.row-matrix
+{
+  width: 60%;
+  height: 60%;
+  margin-left: 31%;
+  float: left;
+  clear:left;
+
+}
+.row-matrix:nth-child(8)
+{
+  clear:left;
+}
+
+
+.btn {
+  width:60px;
+  height:60px;
+  float: left;
+  border-color: black;
+  border-radius: 30%;
+  padding: 1px;
+}
+
+.btn.white{
+  background-color: white;
+  color:black;
+}
+.btn.black{
+  background-color:black;
+  color:white;
+}
+</style>
+
+<body>
+<h1 id="demo">Othello Board</h1>
+<h2>
+<% $game_board.each do |i| %>
+<div class = "row-matrix">
+  <% i.each do |x|%>
+    <div class="btn btn-default">
+      <% if x == 1 %>
+        <%= button_to " ",update_path,{:action =>"update",:class => "btn black btn-lg"}%>
+      <% elsif x==0%>
+        <%= button_to " ",update_path,{:action =>"update",:class => "btn white btn-lg"}%>
+      <% else%>
+        <%= button_to " ",update_path,{:action =>"update",:class => "btn btn-lg"}%>
+      <%end%>
+    </div>
+    <%end%>
+  </div>
+<%end%>
+</h2>
+</body>
+</html>

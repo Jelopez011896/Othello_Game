@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<h1>THis is the board</h1>
+<html>
+<style>
+
+.row-matrix
+{
+  width: 60%;
+  height: 60%;
+  margin-left: 31%;
+  float: left;
+  clear:left;
+
+}
+.row-matrix:nth-child(8)
+{
+  clear:left;
+}
+
+
+.btn {
+  width:60px;
+  height:60px;
+  float: left;
+  border-color: black;
+  border-radius: 30%;
+  padding: 1px;
+}
+
+.btn.white{
+  background-color: white;
+  color:black;
+}
+.btn.black{
+  background-color:black;
+  color:white;
+}
+</style>
+
+<body>
+<h1 id="demo">Othello Board</h1>
+<h2>
+<%= button_to " ",update_path,{:action =>:update,:method => :post,params:{placement_id:"00"}}%>
+
+</h2>
+</body>
+</html>
