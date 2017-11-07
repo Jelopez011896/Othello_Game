@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<h1>THis is the board</h1>
+<h1>This is the board</h1>
 <html>
 <style>
 
@@ -38,10 +38,32 @@
 </style>
 
 <body>
-<h1 id="demo">Othello Board</h1>
+<h1>Othello Board</h1>
 <h2>
-<%= button_to " ",update_path,{:action =>:update,:method => :post,params:{placement_id:"00"}}%>
-
+<%placement_string = 0,0%>
+<% $game1.each do |i|                   %>
+      <div class = "row-matrix">
+<%    i.each do |x|                     %>
+    <div class="btn btn-default">
+<%      if x == 1                       %>
+          <%= button_to " ",update_path,
+          {:action =>:update,:method => :post,params:{placement_id:placement_string},:class => "btn black"}%>
+<%      placement_string[1]+=1          %>
+<%      elsif x==0                      %>
+        <%= button_to " ",update_path,
+        {:action =>:update,:method => :post,params:{placement_id:placement_string},:class => "btn white"}%>
+<%      placement_string[1]+=1          %>
+<%      elsif x==2                      %>
+        <%= button_to " ",update_path,
+        {:action =>:update,:method => :post,params:{placement_id:placement_string},:class => "btn "}%>
+<%      placement_string[1]+=1         %>
+      <%end%>
+    </div>
+    <%end%>
+    <%placement_string[1]=0%>
+    <%placement_string[0]+=1%>
+  </div>
+  <%end%>
 </h2>
 </body>
 </html>

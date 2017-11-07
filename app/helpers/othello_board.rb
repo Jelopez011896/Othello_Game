@@ -2,6 +2,8 @@
 class OthelloBoard
   def initialize
     $game_board
+    $player_turn = "white"
+
 
   end
 

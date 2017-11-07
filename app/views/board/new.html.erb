@@ -39,21 +39,27 @@
 <body>
 <h1 id="demo">Othello Board</h1>
 <h2>
-<% $game_board.each do |i| %>
-<div class = "row-matrix">
-  <% i.each do |x|%>
-    <div class="btn btn-default">
-      <% if x == 1 %>
-        <%= button_to " ",update_path,{:action =>"update",:class => "btn black btn-lg"}%>
-      <% elsif x==0%>
-        <%= button_to " ",update_path,{:action =>"update",:class => "btn white btn-lg"}%>
-      <% else%>
-        <%= button_to " ",update_path,{:action =>"update",:class => "btn btn-lg"}%>
+  <% $game1.each do |i| %>
+  <div class = "row-matrix">
+    <% i.each do |x|%>
+      <div class="btn btn-default">
+        <% if x == 1 %>
+          <%= button_to " ",update_path,
+          {:action =>:update,:method => :post,params:{placement_id:placement_string},:class => "btn black"}%>
+        <% elsif x==0%>
+          <%= button_to " ",update_path,
+          {:action =>:update,:method => :post,params:{placement_id:placement_string},:class => "btn white"}%>
+        <% elsif x==2 %>
+          <%= button_to " ",update_path,
+          {:action =>:update,:method => :post,params:{placement_id:placement_string},:class => "btn "}%>
+          <%placement_string[1]+=1%>
+        <%end%>
+        <%placement_string[1]=0%>
+      </div>
       <%end%>
+      <%placement_string[0]+=1%>
     </div>
     <%end%>
-  </div>
-<%end%>
 </h2>
 </body>
 </html>
