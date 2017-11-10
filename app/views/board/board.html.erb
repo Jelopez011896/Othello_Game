@@ -9,10 +9,12 @@
   text-align: center;
   margin-top: -1%;
 }
-.btn.error_message
+
+.error_message
 {
   text-align: center;
   font-size: 100%;
+  font-style: italic;
   color: red;
   margin-top: -2%;
 }
@@ -67,7 +69,7 @@
 
 .btn.turn
 {
-  width: 7%;
+  width: 8%;
   height: 17%;
   font-weight: 600;
   font-size: 30px;
@@ -88,7 +90,7 @@
 
 </style>
 
-<body>
+<body class ="body">
 <h1 class ='title'>Othello Board</h1>
 <h2>
   <%  if $board.get_valid_move == false %>
@@ -101,9 +103,9 @@
 <%= button_to $board.get_tile_count[0],board_path,{:class =>'btn white tile_count reset'}%>
 <%= button_to $board.get_tile_count[1],board_path,{:class =>'btn black tile_count reset'}%>
 <%  if $board.get_turn == "white"%>
-<%= button_to $board.get_turn,board_path,{:class =>'btn white turn'}%>
+<%= button_to "WHITE",board_path,{:class =>'btn white turn'}%>
 <%  else                         %>
-<%= button_to $board.get_turn,board_path,{:class =>'btn black turn'}%>
+<%= button_to "BLACK",board_path,{:class =>'btn black turn'}%>
 <%  end                          %>
 </h3>
 
