@@ -14,6 +14,7 @@ class OthelloBoard
         [2,2,2,2,2,2,2,2],
         [2,2,2,2,2,2,2,2],
       ]
+    @prev_board = []
     @player_turn = "white"
     @black_count = 2
     @white_count = 2
@@ -35,6 +36,7 @@ class OthelloBoard
       @black_count = 2
       @white_count = 2
       @valid_move = true
+      @prev_move = []
   end
 
   def get_board
@@ -53,15 +55,32 @@ class OthelloBoard
     return @valid_move
   end
 
+  def undo_move
+#Undo the most recent move from the game
+#Array of moves has format: Board,white_count,black_count,player_turn
+    if @prev_board.length > 0
+      @game_board = @prev_board[-1][0]
+      @white_count = @prev_board[-1][1]
+      @black_count = @prev_board[-1][2]
+      @player_turn = @prev_board[-1][3]
+      @prev_board.pop
+    end
+  end
+
   def place_piece(row,column)
     switch_tiles(row,column)
   end
 
   def switch_tiles(row,column)
     switch_direction = check_spot(row,column)
+    cur_board  = []
+    @game_board.each do |piece|
+      cur_board.push(piece.dup)
+    end
+    previous_move = [cur_board,@white_count,@black_count,@player_turn]
+    @prev_board.push(previous_move)
     if !switch_direction.empty? && @game_board[row][column]== 2
       switch_direction.each do |direction|
-        puts direction
         case direction
         when "up"
           switch_Up(row,column)
@@ -271,12 +290,64 @@ class OthelloBoard
       return false
   end
 
-  def check_downr(row,column)
-    return false
+  def check_downl(row,column)
+    tempr = row+1
+    while row<8 && column>-1
+      if @player_turn=="white"
+        if @game_board[row][column] == 0
+          if row>tempr
+            return true
+          else
+            return false
+          end
+        elsif @game_board[row][column] == 2 && row>=tempr
+          return false
+        end
+      elsif @player_turn == "black"
+        if @game_board[row][column] == 1
+          if row>tempr
+            return true
+          else
+            return false
+          end
+        elsif @game_board[row][column] == 2 && row>=tempr
+          return false
+        end
+      end
+      row+=1
+      column-=1
+    end
+      return false
   end
 
-  def check_downl(row,column)
-    return false
+  def check_downr(row,column)
+    tempr = row+1
+    while row<8 && column<8
+      if @player_turn=="white"
+        if @game_board[row][column] == 0
+          if row>tempr
+            return true
+          else
+            return false
+          end
+        elsif @game_board[row][column] == 2 && row>=tempr
+          return false
+        end
+      elsif @player_turn == "black"
+        if @game_board[row][column] == 1
+          if row>tempr
+            return true
+          else
+            return false
+          end
+        elsif @game_board[row][column] == 2 && row>=tempr
+          return false
+        end
+      end
+      row+=1
+      column+=1
+    end
+      return false
   end
 
   def check_l(row,column)
@@ -506,9 +577,69 @@ class OthelloBoard
   end
 
   def switch_DownL(row,column)
+    tempr = row+1
+    while row<8 && column>-1
+      if @player_turn== "white"
+        if @game_board[row][column] == 0 && row>tempr
+          break
+        elsif @game_board[row][column] == 1
+          @game_board[row][column] = 0
+          @white_count+=1
+          @black_count-=1
+        end
+        if @game_board[row][column]!=0
+          @game_board[row][column]= 0
+          @white_count+=1
+        end
+      elsif @player_turn == "black"
+        if @game_board[row][column] == 1 && row>tempr
+          break
+        elsif @game_board[row][column] == 0
+          @game_board[row][column] = 1
+          @white_count-=1
+          @black_count+=1
+        end
+        if @game_board[row][column]!= 1
+          @game_board[row][column]= 1
+          @black_count+=1
+        end
+      end
+      row+=1
+      column-=1
+    end
   end
 
   def switch_DownR(row,column)
+    tempr = row+1
+    while row<8 && column<8
+      if @player_turn== "white"
+        if @game_board[row][column] == 0 && row>tempr
+          break
+        elsif @game_board[row][column] == 1
+          @game_board[row][column] = 0
+          @white_count+=1
+          @black_count-=1
+        end
+        if @game_board[row][column]!=0
+          @game_board[row][column]= 0
+          @white_count+=1
+        end
+      elsif @player_turn == "black"
+        if @game_board[row][column] == 1 && row>tempr
+          break
+        elsif @game_board[row][column] == 0
+          @game_board[row][column] = 1
+          @white_count-=1
+          @black_count+=1
+        end
+        if @game_board[row][column]!= 1
+          @game_board[row][column]= 1
+          @black_count+=1
+        end
+      end
+      row+=1
+      column+=1
+    end
   end
 
 end

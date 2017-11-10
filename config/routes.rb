@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   post '/new',to:'board#new'
   post '/board',to:'board#board'
   post '/update',to:'board#update'
-  patch 'update', to:'board#update'
+  post '/undo', to:'board#undo'
 end

@@ -9,6 +9,7 @@ class BoardController < ApplicationController
   end
 
   def board
+    $game1 = $board.get_board
   end
 
   def update
@@ -17,7 +18,10 @@ class BoardController < ApplicationController
     redirect_to '/board'
   end
 
-  def destroy
-
+  def undo
+    $board.undo_move
+    puts "YEa this ran"
+    redirect_to '/board'
   end
+
 end
