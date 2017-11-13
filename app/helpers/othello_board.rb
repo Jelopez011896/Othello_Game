@@ -4,39 +4,30 @@ class OthelloBoard
   #initialize method sets up certain global variables specific to this class
   #that will keep track of neccessary functions
   def initialize
+    setup
+  end
+
+  def new_board
+    setup
+  end
+
+  def setup
     @game_board =[
-        [2,2,2,2,2,2,2,2],
-        [2,2,2,2,2,2,2,2],
-        [2,2,2,2,2,2,2,2],
-        [2,2,2,0,1,2,2,2],
-        [2,2,2,1,0,2,2,2],
-        [2,2,2,2,2,2,2,2],
-        [2,2,2,2,2,2,2,2],
-        [2,2,2,2,2,2,2,2],
-      ]
+          [2,2,2,2,2,2,2,2],
+          [2,2,2,2,2,2,2,2],
+          [2,2,2,2,2,2,2,2],
+          [2,2,2,0,1,2,2,2],
+          [2,2,2,1,0,2,2,2],
+          [2,2,2,2,2,2,2,2],
+          [2,2,2,2,2,2,2,2],
+          [2,2,2,2,2,2,2,2],
+        ]
     @prev_board = []
     @player_turn = "white"
     @black_count = 2
     @white_count = 2
     @valid_move = true
-  end
-
-  def new_board
-    @game_board =   [
-        [2,2,2,2,2,2,2,2],
-        [2,2,2,2,2,2,2,2],
-        [2,2,2,2,2,2,2,2],
-        [2,2,2,0,1,2,2,2],
-        [2,2,2,1,0,2,2,2],
-        [2,2,2,2,2,2,2,2],
-        [2,2,2,2,2,2,2,2],
-        [2,2,2,2,2,2,2,2],
-      ]
-      @player_turn = "white"
-      @black_count = 2
-      @white_count = 2
-      @valid_move = true
-      @prev_move = []
+    @game_over_flag = false
   end
 
   def get_board
@@ -63,8 +54,33 @@ class OthelloBoard
       @white_count = @prev_board[-1][1]
       @black_count = @prev_board[-1][2]
       @player_turn = @prev_board[-1][3]
+      @game_over_flag = @prev_board[-1][4]
       @prev_board.pop
     end
+  end
+
+  def game_over
+    catch :break_flag do
+      for row in 0..7
+        for column in 0..7
+          if @game_board[row][column] == 2
+            if !check_spot(row,column).empty?
+              @game_over_flag = false
+              throw :break_flag if @game_over_flag == false
+            else
+              @game_over_flag = true
+            end
+          end
+        end
+      end
+      if @black_count + @white_count ==64
+        @game_over_flag = true
+      end
+    end
+  end
+
+  def get_game_over
+    return @game_over_flag
   end
 
   def place_piece(row,column)
@@ -77,7 +93,7 @@ class OthelloBoard
     @game_board.each do |piece|
       cur_board.push(piece.dup)
     end
-    previous_move = [cur_board,@white_count,@black_count,@player_turn]
+    previous_move = [cur_board,@white_count,@black_count,@player_turn,@game_over_flag]
     @prev_board.push(previous_move)
     if !switch_direction.empty? && @game_board[row][column]== 2
       switch_direction.each do |direction|
@@ -109,6 +125,7 @@ class OthelloBoard
     else
       @valid_move = false
     end
+    game_over
   end
 
   def check_spot(row,column)
@@ -642,4 +659,6 @@ class OthelloBoard
     end
   end
 
+
+  private :setup
 end

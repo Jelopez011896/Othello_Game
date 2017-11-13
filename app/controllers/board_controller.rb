@@ -20,7 +20,6 @@ class BoardController < ApplicationController
 
   def undo
     $board.undo_move
-    puts "YEa this ran"
     redirect_to '/board'
   end
 

@@ -24,7 +24,7 @@
 {
   width: 70%;
   height: 70%;
-  margin-left: 31%;
+  margin-left: 29%;
   margin-right: 31%;
   clear:left;
 
@@ -36,11 +36,11 @@
 
 
 .btn {
-  width:60px;
-  height:60px;
+  width:70px;
+  height:70px;
   float: left;
   border-color: black;
-  border-radius: 30%;
+  border-radius: 5%;
   padding: 1px;
 }
 
@@ -58,7 +58,7 @@
   height: 17%;
   font-weight: 600;
   font-size: 30px;
-  border-radius: 20%;
+  border-radius: 5%;
   margin-left: 32%;
 }
 .btn.tile_count{
@@ -73,7 +73,7 @@
   height: 17%;
   font-weight: 600;
   font-size: 30px;
-  border-radius: 20%;
+  border-radius: 5%;
   margin-left: 2%;
 }
 
@@ -83,7 +83,7 @@
   height: 17%;
   font-weight: 600;
   font-size: 30px;
-  border-radius: 20%;
+  border-radius: 5%;
   margin-left: 2%;
 
 }
@@ -96,10 +96,17 @@
   <%  if $board.get_valid_move == false %>
   <p class = "error_message">That was an invalid move. Try again</p>
   <%  end                               %>
+  <%  if $board.get_game_over == true && $board.get_tile_count[0]>32%>
+  <p class = "error_message">GAME OVER. WHITE WINS</p>
+  <%  elsif $board.get_game_over == true && $board.get_tile_count[1]>32%>
+  <p class = "error_message">GAME OVER.BLACK WINS</p>
+  <%  elsif $board.get_game_over == true && $board.get_tile_count[0] ==32%>
+  <p class = "error_message">GAME OVER. TIE</p>
+  <%  end                               %>
 </h2>
 <h3>
-<%= button_to "Reset",new_path,{:action =>:new,:class =>'btn reset'}%>
-<%= button_to "Undo",undo_path,{:action =>:undo,:class =>'btn undo'}%>
+<%= button_to "Reset",board_new_path,{:action =>:new,:class =>'btn reset'}%>
+<%= button_to "Undo",board_undo_path,{:action =>:undo,:class =>'btn undo'}%>
 <%= button_to $board.get_tile_count[0],board_path,{:class =>'btn white tile_count reset'}%>
 <%= button_to $board.get_tile_count[1],board_path,{:class =>'btn black tile_count reset'}%>
 <%  if $board.get_turn == "white"%>
@@ -116,15 +123,15 @@
 <%    i.each do |x|                     %>
     <div class="btn btn-default">
 <%      if x == 1                       %>
-          <%= button_to " ",update_path,
+          <%= button_to " ",board_update_path,
           {:action =>:update,:method => :post,params:{placement_id:placement_string},:class => "btn black"}%>
 <%      placement_string[1]+=1          %>
 <%      elsif x==0                      %>
-        <%= button_to " ",update_path,
+        <%= button_to " ",board_update_path,
         {:action =>:update,:method => :post,params:{placement_id:placement_string},:class => "btn white"}%>
 <%      placement_string[1]+=1          %>
 <%      elsif x==2                      %>
-        <%= button_to " ",update_path,
+        <%= button_to " ",board_update_path,
         {:action =>:update,:method => :post,params:{placement_id:placement_string},:class => "btn "}%>
 <%      placement_string[1]+=1         %>
       <%end%>

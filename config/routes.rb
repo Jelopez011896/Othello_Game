@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
+  get 'users/new'
+
   root 'board#home'
-  get '/new',to:'board#new'
+  get '/board/new',to:'board#new'
   get '/board',to:'board#board'
-  post '/new',to:'board#new'
+  post '/board/new',to:'board#new'
   post '/board',to:'board#board'
-  post '/update',to:'board#update'
-  post '/undo', to:'board#undo'
+  post '/board/update',to:'board#update'
+  post '/board/undo', to:'board#undo'
 end
