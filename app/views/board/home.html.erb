@@ -1,4 +1,6 @@
 <h1>Hello World</h1>
 <body>
-<%= button_to "Start Game 1",board_new_path,{:class => "btn black btn-lg"}%>
+<%= button_to "Start Game 1",board_create_path,{:action =>:create_path,:method => :post,params:{game_id:1},:class => "btn black"}%>
+<%= button_to "Start Game 2",board_create_path,{:action =>:create_board,:method => :post,params:{game_id:2},:class => "btn black"}%>
+<%= button_to "Start Game 3",board_create_path,{:action =>:create_board,:method => :post,params:{game_id:3},:class => "btn black"}%>
 </body>

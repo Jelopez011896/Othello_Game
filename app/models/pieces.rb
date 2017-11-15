@@ -1,2 +1,0 @@
-class pieces < ApplicationRecord
-end

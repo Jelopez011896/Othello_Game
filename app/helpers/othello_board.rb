@@ -3,15 +3,15 @@ class OthelloBoard
 
   #initialize method sets up certain global variables specific to this class
   #that will keep track of neccessary functions
-  def initialize
-    setup
+  def initialize(board_number)
+    setup(board_number)
   end
 
   def new_board
-    setup
+    setup(@board_number)
   end
 
-  def setup
+  def setup(board_number)
     @game_board =[
           [2,2,2,2,2,2,2,2],
           [2,2,2,2,2,2,2,2],
@@ -28,10 +28,16 @@ class OthelloBoard
     @white_count = 2
     @valid_move = true
     @game_over_flag = false
+    @board_number = board_number
+
   end
 
   def get_board
     return @game_board
+  end
+
+  def get_board_number
+    return @board_number
   end
 
   def get_turn
