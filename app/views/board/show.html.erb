@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<style>
+
+
+.title
+{
+  position: absolute;
+  text-align: center;
+  width:505px;
+  height:60px;
+  top:-35px;
+  left:400px;
+  font-size: 60px;
+}
+
+.error_message
+{
+  position: relative ;
+  z-index: 1;
+  top: 400px;
+  left:100px;
+  text-align: center;
+  font-style: italic;
+  font-weight: bold;
+  color: red;
+}
+
+
+.row-matrix
+{
+  min-width: 800px;
+  height: 100px;
+
+}
+
+.row-matrix:nth-child(1)
+{
+  position: absolute;
+  top:144px;
+  left:340px;
+}
+.row-matrix:nth-child(2)
+{
+  position: absolute;
+  top:221px;
+  left:340px;
+}
+.row-matrix:nth-child(3)
+{
+  position: absolute;
+  top:298px;
+  left:340px;
+}
+.row-matrix:nth-child(4)
+{
+  position: absolute;
+  top:375px;
+  left:340px;
+}
+.row-matrix:nth-child(5)
+{
+  position: absolute;
+  top:452px;
+  left:340px;
+}
+.row-matrix:nth-child(6)
+{
+  position: absolute;
+  top:529px;
+  left:340px;
+}
+.row-matrix:nth-child(7)
+{
+  position: absolute;
+  top:606px;
+  left:340px;
+}
+.row-matrix:nth-child(8)
+{
+  position: absolute;
+  top:683px;
+  left:340px;
+}
+
+
+.tile{
+  min-width: 30px;
+  min-height: 30px;
+  width:75px;
+  height:75px;
+  float: left;
+  border: 1px solid black;
+  border-radius: 10px;
+  border: 1px solid black;
+  background-color: grey;
+}
+
+.tile.white{
+  background-color: white;
+  color:black;
+}
+.tile.black{
+  background-color:black;
+  color:white;
+}
+.tile.reset
+{
+  width: 100px;
+  height: 45px;
+  position: absolute;
+  top: 85px;
+  left: 340px;
+  font-size: 34px;
+  font-weight: bold;
+  border-radius: 10px;
+  background-color: lightblue;
+}
+
+.tile.undo
+{
+  width: 100px;
+  height: 45px;
+  position: absolute;
+  top: 85px;
+  left: 450px;
+  font-size: 34px;
+  font-weight: bold;
+  border-radius: 10px;
+  background-color: lightgreen;
+}
+
+.tile.count
+{
+  text-align: center;
+  position: absolute;
+  width:80px;
+  height:65px;
+  font-size: 60px;
+  top: 10px;
+}
+.tile.count.white
+{
+  left:570px;
+  background-color: white;
+  color:black;
+
+}
+
+.tile.count.black
+{
+  left:665px;
+  background-color:black;
+  color:white;
+}
+
+.tile.turn
+{
+  position: absolute;
+  width:178px;
+  height:65px;
+  top: 20px;
+  left: 760px;
+  font-size: 50px;
+}
+
+.tile.turn.b
+{
+  background-color:black;
+  color:white;
+}
+
+.tile.turn.w
+{
+  background-color: white;
+  color:black;
+}
+</style>
+
+<!-- I need to figure out how to animate the error messages to make my code look professional -->
+<body class ="body">
+<h1 class ='title'>Othello Board <%=@othello_logic.get_board_number%></h1>
+
+<h2>
+  <%  if @othello_logic.get_game_over == true && @othello_logic.get_tile_count[0]>32%>
+  <p class = "error_message">GAME OVER. WHITE WINS</p>
+  <%  elsif @othello_logic.get_game_over == true && @othello_logic.get_tile_count[1]>32%>
+  <p class = "error_message">GAME OVER.BLACK WINS</p>
+  <%  elsif @othello_logic.get_game_over == true && @othello_logic.get_tile_count[0] ==32%>
+  <p class = "error_message">GAME OVER. TIE</p>
+  <%  end                               %>
+</h2>
+<h3>
+<%= button_to "Reset",board_new_path,{:action =>:new,params:{game_id:@othello_logic.get_board_number},:class =>'tile reset'}%>
+<%= button_to "Undo",board_undo_path,{:action =>:undo,params:{game_id:@othello_logic.get_board_number},:class =>'tile undo'}%>
+<p class = "tile count white"><%=@othello_logic.get_tile_count[0]%></p>
+<p class = "tile count black"><%=@othello_logic.get_tile_count[1]%></p>
+<%  if @othello_logic.get_turn == "white"%>
+<p class = "tile turn w">WHITE</p>
+<%  else                         %>
+<p class = "tile turn b">BLACK</p>
+<%  end                          %>
+</h3>
+
+<h4>
+<%placement_string = 0,0%>
+<% @board.each do |i|                   %>
+      <div class = "row-matrix">
+<%    i.each do |x|                     %>
+    <div class= "tile">
+<%      if x == 1                       %>
+          <%= link_to " ",{:action =>"update",:method => "patch",:params =>{placement_id:placement_string,game_id:@othello_logic.get_board_number}},{:class =>"tile black"}%>
+<%      placement_string[1]+=1          %>
+<%      elsif x== 0                      %>
+          <%= link_to " ",{:action =>"update",:method => "patch",:params =>{placement_id:placement_string,game_id:@othello_logic.get_board_number}},{:class =>"tile white"}%>
+<%      placement_string[1]+=1          %>
+<%      elsif x== 2                      %>
+          <%= link_to " ",{:action =>"update",:method => "patch",:params =>{placement_id:placement_string,game_id:@othello_logic.get_board_number}},{:class =>"tile"}%>
+<%      placement_string[1]+=1         %>
+      <%end%>
+    </div>
+    <%end%>
+    <%placement_string[1]=0%>
+    <%placement_string[0]+=1%>
+  </div>
+  <%end%>
+</h4>
+</body>
+</html>
