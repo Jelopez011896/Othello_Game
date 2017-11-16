@@ -15,17 +15,20 @@ class BoardController < ApplicationController
   end
 
   def show
+    if !$boards_array.key?(params['id'])
+      $boards_array[params['id']] = OthelloBoard.new(params['id'])
+    end
     @othello_logic = $boards_array[params['id']]
     @board = @othello_logic.get_board
   end
 
-  def switch_board(board_number)
-    @board = $boards_array[board_number].get_board
-  end
 
   def update
     piece_place = params
     $boards_array[params['game_id']].place_piece(piece_place['placement_id'][0].to_i,piece_place['placement_id'][1].to_i)
+    if !$boards_array[params['game_id']].get_valid_move
+      flash[:invalid_move] = "That move was invalid. Try Again"
+    end
     redirect_to "/board/show/#{params['game_id']}"
   end
 
