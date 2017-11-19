@@ -12,6 +12,8 @@ gem 'sqlite3', :group => [:development, :test]
 group :production do
   gem 'pg'
 end
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'autoprefixer-rails'
 gem 'bundler'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'

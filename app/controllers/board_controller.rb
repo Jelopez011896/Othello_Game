@@ -26,9 +26,6 @@ class BoardController < ApplicationController
   def update
     piece_place = params
     $boards_array[params['game_id']].place_piece(piece_place['placement_id'][0].to_i,piece_place['placement_id'][1].to_i)
-    if !$boards_array[params['game_id']].get_valid_move
-      flash[:invalid_move] = "That move was invalid. Try Again"
-    end
     redirect_to "/board/show/#{params['game_id']}"
   end
 
@@ -36,5 +33,7 @@ class BoardController < ApplicationController
     $boards_array[params['game_id']].undo_move
     redirect_to "/board/show/#{params['game_id']}"
   end
+
+  helper_method :update,:create,:undo
 
 end

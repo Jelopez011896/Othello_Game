@@ -1,7 +1,19 @@
 <!DOCTYPE html>
 <html>
 <style>
-
+.alert {
+  width:300px;
+  height:30px;
+  position: relative;
+  text-align: center;
+  float: right;
+  border-radius: 5px;
+  z-index: 2;
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  margin-bottom: 15px;
+}
 
 .title
 {
@@ -176,13 +188,25 @@
   color:black;
 }
 </style>
+<script type = "text/javascript">
+  function reload_board()
+  {
+    document.getElementById("board_tiles").contentWindow.location.reload(true);
+  }
+
+
+</script>
 
 <!-- I need to figure out how to animate the error messages to make my code look professional -->
 <body class ="body">
 <h1 class ='title'>Othello Board <%=@othello_logic.get_board_number%></h1>
 
 <h2>
-  <%  if @othello_logic.get_game_over == true && @othello_logic.get_tile_count[0]>32%>
+  <% if @othello_logic.get_valid_move ==false%>
+  <div class="alert">
+  Invalid move, try again
+  </div>
+  <% elsif @othello_logic.get_game_over == true && @othello_logic.get_tile_count[0]>32%>
   <p class = "error_message">GAME OVER. WHITE WINS</p>
   <%  elsif @othello_logic.get_game_over == true && @othello_logic.get_tile_count[1]>32%>
   <p class = "error_message">GAME OVER.BLACK WINS</p>
@@ -202,20 +226,20 @@
 <%  end                          %>
 </h3>
 
-<h4>
+<h4 id ="board_tiles">
 <%placement_string = 0,0%>
 <% @board.each do |i|                   %>
       <div class = "row-matrix">
 <%    i.each do |x|                     %>
     <div class= "tile">
 <%      if x == 1                       %>
-          <%= link_to " ",{:action =>"update",:method => "patch",:params =>{placement_id:placement_string,game_id:@othello_logic.get_board_number}},{:class =>"tile black"}%>
+          <%= link_to " ",{:action =>"update",:method => "patch",:remote =>true,:params =>{placement_id:placement_string,game_id:@othello_logic.get_board_number}},{:class =>"tile black"}%>
 <%      placement_string[1]+=1          %>
 <%      elsif x== 0                      %>
-          <%= link_to " ",{:action =>"update",:method => "patch",:params =>{placement_id:placement_string,game_id:@othello_logic.get_board_number}},{:class =>"tile white"}%>
+          <%= link_to " ",{:action =>"update",:method => "patch",:remote =>true,:params =>{placement_id:placement_string,game_id:@othello_logic.get_board_number}},{:class =>"tile white"}%>
 <%      placement_string[1]+=1          %>
 <%      elsif x== 2                      %>
-          <%= link_to " ",{:action =>"update",:method => "patch",:params =>{placement_id:placement_string,game_id:@othello_logic.get_board_number}},{:class =>"tile"}%>
+          <%= link_to " ",{:action =>"update",:method => "patch",:remote =>true,:params =>{placement_id:placement_string,game_id:@othello_logic.get_board_number}},{:class =>"tile"}%>
 <%      placement_string[1]+=1         %>
       <%end%>
     </div>
